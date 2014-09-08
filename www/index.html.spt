@@ -135,13 +135,7 @@ friends_hack = website.db.all("""
             href="">About Receiving</a> guide for more suggestions.</p>
 
             {% include "templates/team-listing.html" %}
-
-            <p><a href="">Join Teams</a> | <a href="">What are Teams?</a></p>
-
-
             {% include "templates/community-listing.html" %}
-
-            <p><a href="">Join Communities</a> | <a href="">What are Communities?</a></p>
 
         </div>
 

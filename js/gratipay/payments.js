@@ -452,3 +452,64 @@ Gratipay.payments.cc.handleResponse = function(response) {
                        , detailedFeedback
                         );
 };
+
+// Coinbase Accounts
+// =================
+
+Gratipay.payments.cb = {};
+
+Gratipay.payments.cb.init = function(balanced_uri, participantId) {
+    Gratipay.participantId = participantId;
+    //$('#delete form').submit(Gratipay.payments.submitDeleteForm); TODO
+    $('#cb-add').click(Gratipay.payments.cb.submit);
+
+    // Lazily depend on Balanced.
+    var balanced_js = "https://js.balancedpayments.com/1.1/balanced.min.js";
+    jQuery.getScript(balanced_js, function() {
+        Gratipay.havePayments = true;
+    });
+};
+
+Gratipay.payments.cb.submit = function(e) {
+    e.preventDefault();
+
+    balanced.externalAccount.create('coinbase', Gratipay.payments.cb.handleResponse);
+};
+
+Gratipay.payments.cb.handleResponse = function(response) {
+    if (response.status_code !== 201) {
+        // var msg = Gratipay.payments.onError(response);
+        // $.post('/credit-card.json', {action: 'store-error', msg: msg});
+        // TODO
+        Gratipay.notification("Coinbase authorization failed", 'error')
+        return;
+    }
+
+    /* The request to create the token succeeded. We now have a single-use
+     * token associated with the Coinbase account. This token can be
+     * used to associate the account with a customer. This happens on the
+     * server side.
+     */
+
+    console.log("Yay, Coinbase account connected!")
+
+    function onError() {
+        Gratipay.notification("Oops, couldn't connect your Coinbase account!", 'error')
+        console.log("Couldn't post back info to Gratipay")
+    }
+
+    function onSuccess() {
+        Gratipay.notification("Your coinbase account is now connected.", 'success')
+        $('#cb-status').text("Your coinbase account is connected.");
+        // TODO - Replace Add with Remove.
+        console.log("Info posted back.")
+    }
+
+    jQuery.ajax({ url: "/coinbase.json"
+                , type: "POST"
+                , data: {account_href: response.external_accounts[0].href}
+                , dataType: "json"
+                , success: onSuccess
+                , error: onError
+                 });
+};

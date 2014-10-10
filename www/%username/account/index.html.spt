@@ -1,3 +1,4 @@
+import balanced
 
 from gratipay.utils import get_participant
 from cgi import escape
@@ -17,6 +18,15 @@ emails = participant.get_emails()
 
 {% block scripts %}
 <script>$(document).ready(Gratipay.account.init);</script>
+
+{% if not user.ANON %}
+<script>
+    $(document).ready(function() {
+        Gratipay.payments.cb.init("{{ balanced.Marketplace.my_marketplace.uri }}", "{{ user.participant.username }}");
+    });
+</script>
+{% endif %}
+
 {{ super() }}
 {% endblock %}
 
@@ -90,6 +100,28 @@ emails = participant.get_emails()
                             <a class="button auth-button" href="/credit-card.html">{{ _("+ Add") }}</a>
                         {% else %}
                             <a class="button auth-button" href="/credit-card.html">{{ _("Edit") }}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="account-type">
+                        <img src="{{ website.asset_url }}/coinbase.jpg" />
+                    </td>
+                    <td class="account-details">
+                        <div class="account-type">{{ _("Coinbase Account") }}</div>
+                        {% if True %}
+                            <span id="cb-status">{{ _("Sample text {0}working{1}", "", "") }}</span>
+                        {% elif True %}
+                            <span id="cb-status">{{ _("Your coinbase account is {0}failing{1}", "<b>", "</b>") }}</span>
+                        {% else %}
+                            <span id="cb-status"></span>
+                        {% endif %}
+                    </td>
+                    <td class="account-action">
+                        {% if True %}
+                            <a class="button auth-button" href="#" id="cb-add">{{ _("+ Add") }}</a>
+                        {% else %}
+                            <a class="button auth-button" href="#" id="cb-remove">{{ _("Remove") }}</a>
                         {% endif %}
                     </td>
                 </tr>

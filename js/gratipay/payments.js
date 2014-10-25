@@ -461,7 +461,7 @@ Gratipay.payments.cb = {};
 Gratipay.payments.cb.init = function(balanced_uri, participantId) {
     Gratipay.participantId = participantId;
     //$('#delete form').submit(Gratipay.payments.submitDeleteForm); TODO
-    $('#cb-add').click(Gratipay.payments.cb.submit);
+    $('#cb-button').click(Gratipay.payments.cb.toggleAccount);
 
     // Lazily depend on Balanced.
     var balanced_js = "https://js.balancedpayments.com/1.1/balanced.min.js";
@@ -470,10 +470,39 @@ Gratipay.payments.cb.init = function(balanced_uri, participantId) {
     });
 };
 
-Gratipay.payments.cb.submit = function(e) {
+Gratipay.payments.cb.toggleAccount = function(e) {
     e.preventDefault();
+    if ($(this).data("action") == "add") {
+        Gratipay.payments.cb.addAccount();
+    }
+    else {
+        var msg = "Really disconnect your Coinbase account?";
+        if (confirm(msg)) {
+            Gratipay.payments.cb.removeAccount();
+        }
+    }
+}
 
+Gratipay.payments.cb.addAccount = function() {
     balanced.externalAccount.create('coinbase', Gratipay.payments.cb.handleResponse);
+};
+
+Gratipay.payments.cb.removeAccount = function() {
+    jQuery.ajax(
+        { url: '/coinbase.json'
+        , data: {action: "delete"}
+        , type: "POST"
+        , success: function() {
+            Gratipay.notification("Disconnected your coinbase account", 'success');
+            $('#cb-status').text("");
+            $('#cb-button').text("+ Add");
+            $('#cb-button').data("action", "add");
+          }
+        , error: function() {
+            Gratipay.notification("Sorry, something went wrong deleting your Coinbase account", 'error');
+          }
+         }
+    );
 };
 
 Gratipay.payments.cb.handleResponse = function(response) {
@@ -501,7 +530,9 @@ Gratipay.payments.cb.handleResponse = function(response) {
     function onSuccess() {
         Gratipay.notification("Your coinbase account is now connected.", 'success')
         $('#cb-status').text("Your coinbase account is connected.");
-        // TODO - Replace Add with Remove.
+        $('#cb-button').text("Remove");
+        $('#cb-button').data("action", "remove");
+
         console.log("Info posted back.")
     }
 

@@ -18,16 +18,14 @@ request.allow('POST')
 out = {}
 
 if body.get('action') == 'delete':
-    # billing.clear( website.db
-    #              , u"credit card"
-    #              , user.participant.username
-    #              , user.participant.balanced_customer_href
-    #               )
-    pass
-    # TODO
+    billing.clear( website.db
+                 , u"coinbase account"
+                 , user.participant.username
+                 , user.participant.balanced_customer_href
+                  )
+# TODO
 #elif body.get('action') == 'store-error':
     # billing.store_result(website.db, u"credit card", user.participant.username, body['msg'])
-    # TODO
 else:
 
     # Associate the single-use token representing the coinbase account.

@@ -110,7 +110,7 @@ emails = participant.get_emails()
                     <td class="account-details">
                         <div class="account-type">{{ _("Coinbase Account") }}</div>
                         {% if participant.last_coinbase_result == "" %}
-                            <span id="cb-status">{{ _("Your coinbase account is {0}working{1}", "", "") }}</span>
+                            <span id="cb-status">{{ _("Your coinbase account is {0}connected{1}", "", "") }}</span>
                         {% elif participant.last_coinbase_result %}
                             <span id="cb-status">{{ _("Your coinbase account is {0}failing{1}", "<b>", "</b>") }}</span>
                         {% else %}
@@ -119,9 +119,9 @@ emails = participant.get_emails()
                     </td>
                     <td class="account-action">
                         {% if participant.last_coinbase_result is none %}
-                            <a class="button auth-button" href="#" id="cb-add">{{ _("+ Add") }}</a>
+                            <a class="button auth-button" href="#" id="cb-button" data-action="add">{{ _("+ Add") }}</a>
                         {% else %}
-                            <a class="button auth-button" href="#" id="cb-remove">{{ _("Remove") }}</a>
+                            <a class="button auth-button" href="#" id="cb-button" data-action="remove">{{ _("Remove") }}</a>
                         {% endif %}
                     </td>
                 </tr>

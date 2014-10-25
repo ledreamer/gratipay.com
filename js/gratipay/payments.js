@@ -458,9 +458,7 @@ Gratipay.payments.cc.handleResponse = function(response) {
 
 Gratipay.payments.cb = {};
 
-Gratipay.payments.cb.init = function(balanced_uri, participantId) {
-    Gratipay.participantId = participantId;
-    //$('#delete form').submit(Gratipay.payments.submitDeleteForm); TODO
+Gratipay.payments.cb.init = function() {
     $('#cb-button').click(Gratipay.payments.cb.toggleAccount);
 
     // Lazily depend on Balanced.
@@ -472,6 +470,8 @@ Gratipay.payments.cb.init = function(balanced_uri, participantId) {
 
 Gratipay.payments.cb.toggleAccount = function(e) {
     e.preventDefault();
+
+    // TODO - disable the button until action is done.
     if ($(this).data("action") == "add") {
         Gratipay.payments.cb.addAccount();
     }
@@ -507,9 +507,7 @@ Gratipay.payments.cb.removeAccount = function() {
 
 Gratipay.payments.cb.handleResponse = function(response) {
     if (response.status_code !== 201) {
-        // var msg = Gratipay.payments.onError(response);
-        // $.post('/credit-card.json', {action: 'store-error', msg: msg});
-        // TODO
+        // TODO - Is there any reason to store the error?
         Gratipay.notification("Coinbase authorization failed", 'error')
         return;
     }
@@ -520,11 +518,8 @@ Gratipay.payments.cb.handleResponse = function(response) {
      * server side.
      */
 
-    console.log("Yay, Coinbase account connected!")
-
     function onError() {
         Gratipay.notification("Oops, couldn't connect your Coinbase account!", 'error')
-        console.log("Couldn't post back info to Gratipay")
     }
 
     function onSuccess() {
@@ -532,8 +527,6 @@ Gratipay.payments.cb.handleResponse = function(response) {
         $('#cb-status').text("Your coinbase account is connected.");
         $('#cb-button').text("Remove");
         $('#cb-button').data("action", "remove");
-
-        console.log("Info posted back.")
     }
 
     jQuery.ajax({ url: "/coinbase.json"

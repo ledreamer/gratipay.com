@@ -22,7 +22,7 @@ emails = participant.get_emails()
 {% if not user.ANON %}
 <script>
     $(document).ready(function() {
-        Gratipay.payments.cb.init("{{ balanced.Marketplace.my_marketplace.uri }}", "{{ user.participant.username }}");
+        Gratipay.payments.cb.init();
     });
 </script>
 {% endif %}

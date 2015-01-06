@@ -12,12 +12,15 @@
 // =============
 // http://bradfrost.com/blog/post/atomic-web-design/
 
+// dependency order
 @import "atoms/reset";
 @import "atoms/variables";
 @import "atoms/buttons-knobs";
 @import "atoms/elements";
 @import "atoms/utils";
 
+// alphabetical order
+@import "molecules/accounts";
 @import "molecules/chart";
 @import "molecules/chosen";
 @import "molecules/communities";
@@ -29,7 +32,9 @@
 @import "molecules/linear_gradient";
 @import "molecules/loading-indicators";
 @import "molecules/markdown";
+@import "molecules/members";
 @import "molecules/memberships";
+@import "molecules/mini-user";
 @import "molecules/payments-by";
 @import "molecules/sign_in";
 @import "molecules/support_gratipay";
@@ -37,14 +42,17 @@
 @import "molecules/tipr";
 @import "molecules/upgrade";
 
-@import "organisms/accounts";
-@import "organisms/members";
-@import "organisms/mini-user";
-@import "organisms/notifications";
+// spatial order (top to bottom)
+@import "organisms/header";
+@import "organisms/secondary-nav";
+@import "organisms/card";
+@import "organisms/content";
+@import "organisms/footer";
 
-@import "templates/layout";
-@import "templates/responsiveness";
+// content size order
+@import "templates/smallest";
 
+// random order
 @import "pages/homepage";
 @import "pages/history";
 @import "pages/team";

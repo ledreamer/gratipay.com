@@ -39,13 +39,47 @@
         <div id="header" class="clearfix">
             <h1><a href="/"><img src="{{ website.asset('gratipay.svg') }}"
                                  alt="Gratipay" /></a></h1>
-            {% set pages = [('/about/', _('About')), ('/explore/', _('Explore')), ('/search', _('Search'))] %}
+            {% include "templates/support-gratipay.html" %}
+        </div>
+
+        <div id="main">
+            <div id="sidebar">{% block sidebar %}{% endblock %}</div>
+            <div id="content" class="clearfix">
+                {% block heading %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+                {% block subnav %}{% endblock %}
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+
+        <div id="secondary-nav">{% block secondary_nav %}{% endblock %}</div>
+
+        <div id="succinct-global-nav">
+            {% set pages=[ ('/about/', _('About'))
+                         , ('/explore/', _('Explore'))
+                         , ('/search/', _('Search'))
+                          ]%}
             {% set current_page = path.raw.split('/')[1] %}
             {% include "templates/nav.html" %}
+        </div>
+
+        <div id="verbose-global-nav">
+            <ul class="nav">
+                <li><a href="/about/">{{ _("About") }}</a></li>
+                <li><a href="/about/contact">{{ _("Contact Us") }}</a></li>
+                <li><a href="/about/faq">{{ _("FAQ") }}</a></li>
+                <li><a href="/about/terms/">{{ _("Terms") }}</a></li>
+                <li><a href="http://inside.gratipay.com/appendices/colophon">{{ _("Colophon") }}</a></li>
+                <li><a href="https://medium.com/gratipay-blog">{{ _("Blog") }}</a></li>
+                <li><a href="https://twitter.com/gratipay">Twitter</a></li>
+                <li><a href="https://github.com/gratipay/gratipay.com">GitHub</a></li>
+            </ul>
+        </div>
+
+        <div id="you-are">
             {% if user.ANON %}
-                {% include "templates/sign-in-using.html" %}
+            {% include "templates/sign-in-using.html" %}
             {% else %}
-            <ul class="nav you-are">
+            <ul class="nav">
                 <li>
                     <a href="/{{ user.participant.username }}/"{% if path.raw.split('/')[1] == user.participant.username  %} class="selected"{% endif %}>
                         {{ user.participant.username }}
@@ -62,29 +96,6 @@
                 </li>
             </ul>
             {% endif %}
-            {% include "templates/support-gratipay.html" %}
-        </div>
-
-        <div id="main">
-            <div id="sidebar">{% block sidebar %}{% endblock %}</div>
-            <div id="content" class="clearfix">
-                {% block heading %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
-                {% block subnav %}{% endblock %}
-                {% block content %}{% endblock %}
-            </div>
-        </div>
-
-        <div id="footer">
-            <ul>
-                <li><a href="/about/">{{ _("About") }}</a></li>
-                <li><a href="/about/contact">{{ _("Contact Us") }}</a></li>
-                <li><a href="/about/faq">{{ _("FAQ") }}</a></li>
-                <li><a href="/about/terms/">{{ _("Terms") }}</a></li>
-                <li><a href="http://inside.gratipay.com/appendices/colophon">{{ _("Colophon") }}</a></li>
-                <li><a href="https://medium.com/gratipay-blog">{{ _("Blog") }}</a></li>
-                <li><a href="https://twitter.com/gratipay">Twitter</a></li>
-                <li><a href="https://github.com/gratipay/gratipay.com">GitHub</a></li>
-            </ul>
         </div>
     </div>
 

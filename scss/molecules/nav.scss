@@ -1,0 +1,14 @@
+.nav {
+    li {
+        margin: 0;
+        a {
+            display: block;
+            padding: 8px;
+            border-top: 1px solid $brown;
+            font-weight: normal;
+        }
+        &:last-child {
+            border-bottom: 1px solid $brown;
+        }
+    }
+}

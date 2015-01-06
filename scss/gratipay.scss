@@ -2,10 +2,10 @@
     This is the top of the Gratipay CSS tree.
 */
 
-@import "mixins/layout";
-@import "mixins/icons";
-@import "mixins/borders-backgrounds-shadows";
 @import "mixins/animation";
+@import "mixins/border-radius";
+@import "mixins/icons";
+@import "mixins/layout";
 
 
 // Atomic Design
